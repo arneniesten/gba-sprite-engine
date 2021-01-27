@@ -39,7 +39,8 @@ enum SpriteSize {
     SIZE_8_16,
     SIZE_8_32,
     SIZE_16_32,
-    SIZE_32_64
+    SIZE_32_64,
+    SIZE_240_32
 };
 
 class SpriteManager;
@@ -110,6 +111,11 @@ public:
     bool isOffScreen();
 
     friend class SpriteManager;
+
+    ///Extra methods
+    bool isOffScreenDown();
+    bool collidesWithCar(Sprite &s2);
+    bool collidesWithTreeTrunk(Sprite &s2);
 };
 
 

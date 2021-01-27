@@ -44,7 +44,7 @@ std::string Timer::to_string() {
 }
 
 std::ostream& operator<<(std::ostream &os, Timer &timer) {
-    os << timer.hours << "h:" << timer.minutes << "m:" << timer.secs << "s:" << timer.msecs;
+    os << timer.minutes << "m:" << timer.secs << "s:" << timer.msecs;
     return os;
 }
 

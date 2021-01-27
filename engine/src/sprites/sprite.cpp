@@ -36,6 +36,10 @@ bool Sprite::isOffScreen() {
     return x < 0 || x > GBA_SCREEN_WIDTH || y < 0 || y > GBA_SCREEN_HEIGHT;
 }
 
+bool Sprite::isOffScreenDown() {
+    return y >= GBA_SCREEN_HEIGHT + 32;
+}
+
 void Sprite::flipHorizontally(bool flip) {
     if(flip) {
         oam.attr1 |= ATTR1_HFLIP;
@@ -131,6 +135,7 @@ void Sprite::setAttributesBasedOnSize(SpriteSize size) {
         case SIZE_8_32:  size_bits = 1; shape_bits = 2; w = 8; h = 32; animation_offset = 4; break;
         case SIZE_16_32: size_bits = 2; shape_bits = 2; w = 16; h = 32; animation_offset = 8; break;
         case SIZE_32_64: size_bits = 3; shape_bits = 2; w = 32; h = 64; animation_offset = 32; break;
+        case SIZE_240_32: size_bits = 4; shape_bits = 3; w = 240; h = 32; animation_offset = 32; break;
     }
 }
 
@@ -141,6 +146,30 @@ bool Sprite::collidesWith(Sprite &s2) {
             s1.x + s1.w > s2.x &&
             s1.y < s2.y + s2.h &&
             s1.h + s1.y > s2.y) {
+        return true;
+    }
+    return false;
+}
+
+bool Sprite::collidesWithCar(Sprite &s2) {
+    const Sprite &s1 = *this;
+
+    if(s1.x + 7 < s2.x + s2.w - 2 &&
+       s2.x + 1 < s1.x + s1.w - 8 &&
+       s1.y < s2.y + s2.h &&
+       s1.h + s1.y > s2.y) {
+        return true;
+    }
+    return false;
+}
+
+bool Sprite::collidesWithTreeTrunk(Sprite &s2) {
+    const Sprite &s1 = *this;
+
+    if(s1.x < s2.x + s2.w - 16 &&
+       s2.x < s1.x + s1.w - 16 &&
+       s1.y < s2.y + s2.h &&
+       s1.h + s1.y > s2.y) {
         return true;
     }
     return false;
